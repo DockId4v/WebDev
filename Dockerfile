@@ -1,4 +1,4 @@
-FROM php:apache
+FROM php:5.5-apache
 MAINTAINER "David Rimbault"
 
 RUN apt-get update \
