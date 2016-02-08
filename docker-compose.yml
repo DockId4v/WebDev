@@ -1,0 +1,26 @@
+mysql:
+  image: mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: rootpw
+    MYSQL_DATABASE: test_db
+    MYSQL_USER: test
+    MYSQL_PASSWORD: test
+pma:
+  image: phpmyadmin/phpmyadmin
+  links:
+    - mysql
+  environment:
+    - VIRTUAL_HOST=pma.docker
+    - PMA_ARBITRARY=1
+  restart: always
+  ports:
+    - 8080:8080
+php:
+  build: .
+  links:
+    - mysql
+  volumes:
+    - ./conf/vhost.conf:/etc/apache2/sites-enabled/site.conf
+    - ./code:/var/www/html
+  environment:
+    - VIRTUAL_HOST=test.docker
